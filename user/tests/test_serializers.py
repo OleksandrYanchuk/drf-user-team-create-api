@@ -48,7 +48,6 @@ class UserSerializerTest(TestCase):
         self.assertTrue(updated_user.is_staff)
 
     def test_serializer_invalid_password(self):
-        """Test that an invalid password raises a validation error"""
         invalid_data = {
             "email": "testuser@example.com",
             "password": "pass",
