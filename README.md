@@ -8,11 +8,11 @@
 #### 1.  Clone the repository:
 
 ```python
-git clone https://github.com/OleksandrYanchuk/py-airport-api-service.git
+git clone https://github.com/OleksandrYanchuk/drf-user-team-create-api.git
 ```
 #### 2. Open the folder:
 ```python
-cd py-airport-api-service
+cd drf-user-team-create-api
 ```
 #### 3. Create a virtual environment:
 ```python
@@ -64,9 +64,11 @@ admin:
 user:
 - email: user@user.com
 - pass: 1234user
+
 user1:
 - email: user1@user.com
 - pass: 1234user
+
 user2:
 - email: user2@user.com
 - pass: 1234user
