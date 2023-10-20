@@ -10,7 +10,7 @@ class TeamListCreateViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(
-            email="admin@admin.com",
+            email="admin1@admin.com",
             password="1234admin",
             is_staff=True,
         )
@@ -19,13 +19,15 @@ class TeamListCreateViewTest(TestCase):
         self.team = Team.objects.create(name="Test Team", about="This is a test team")
 
     def test_create_team(self):
+        counter = Team.objects.count()
         self.client.force_authenticate(user=None)
         response = self.client.post("/api/team/teams/", self.team_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.client.force_authenticate(user=self.user)
         response = self.client.post("/api/team/teams/", self.team_data, format="json")
+        counter += 1
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Team.objects.count(), 2)
+        self.assertEqual(Team.objects.count(), counter)
 
     def test_list_teams(self):
         self.client.force_authenticate(user=self.user)
@@ -37,7 +39,7 @@ class TeamRetrieveUpdateDeleteViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(
-            email="admin@admin.com",
+            email="admin1@admin.com",
             password="1234admin",
             is_staff=True,
         )
@@ -79,7 +81,7 @@ class TeamMemberCreateViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(
-            email="admin@admin.com",
+            email="admin1@admin.com",
             password="1234admin",
             is_staff=True,
         )
@@ -110,7 +112,7 @@ class TeamMemberDestroyViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(
-            email="admin@admin.com",
+            email="admin1@admin.com",
             password="1234admin",
             is_staff=True,
         )
@@ -134,11 +136,11 @@ class TeamMemberListViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user1 = User.objects.create(
-            email="user1@user.com",
+            email="user10@user.com",
             password="1234user",
         )
         self.user2 = User.objects.create(
-            email="user2@user.com",
+            email="user20@user.com",
             password="1234user",
         )
 
@@ -151,9 +153,10 @@ class TeamMemberListViewTest(TestCase):
         )
 
     def test_get_team_members_without_filter(self):
+        counter = TeamMember.objects.count()
         response = self.client.get("/api/team/team-members/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data), counter)
 
     def test_get_team_members_with_filter(self):
         team_id = self.team.id

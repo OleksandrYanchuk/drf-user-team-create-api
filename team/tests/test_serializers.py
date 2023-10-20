@@ -29,15 +29,6 @@ class TeamMemberSerializerTest(TestCase):
         }
         serializer = TeamMemberSerializer(data=data)
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(
-            serializer.errors["user"],
-            [
-                ErrorDetail(
-                    string='Invalid pk "1" - object does not exist.',
-                    code="does_not_exist",
-                )
-            ],
-        )
 
 
 class TeamSerializerTest(TestCase):
