@@ -7,9 +7,17 @@ from django.utils.translation import gettext as _
 
 
 class UserManager(BaseUserManager):
+    """
+    User manager for the custom user model.
+    """
+
     use_in_migrations = True
 
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, email: str, password: str, **extra_fields) -> "User":
+        """
+        Create and save a user with the given parameters.
+        """
+
         if not email:
             raise ValueError("The given email must be set")
         email = self.normalize_email(email)
@@ -18,12 +26,20 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email: str, password: str = None, **extra_fields) -> "User":
+        """
+        Create a regular user.
+        """
+
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email: str, password: str, **extra_fields) -> "User":
+        """
+        Create an administrator user.
+        """
+
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -36,6 +52,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    Custom user model that inherits from AbstractUser.
+    """
+
     username = None
     email = models.EmailField(_("email address"), unique=True)
     profession = models.CharField(max_length=255, blank=True, null=True)

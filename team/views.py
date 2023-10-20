@@ -6,25 +6,34 @@ from rest_framework.response import Response
 
 from team.models import Team, TeamMember
 from team.permissions import IsAdminOrIfAuthenticatedReadOnly
-from team.serializers import (
-    TeamSerializer,
-    TeamMemberSerializer,
-)
+from team.serializers import TeamSerializer, TeamMemberSerializer
 
 
 class TeamListCreateView(generics.ListCreateAPIView):
+    """
+    View for listing and creating teams.
+    """
+
     queryset = Team.objects.prefetch_related("members").all()
     serializer_class = TeamSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
 
 class TeamRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View for retrieving, updating, and deleting a team.
+    """
+
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
 
 class TeamMemberCreateView(generics.CreateAPIView):
+    """
+    View for creating a team member.
+    """
+
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
@@ -36,12 +45,20 @@ class TeamMemberCreateView(generics.CreateAPIView):
 
 
 class TeamMemberDestroyView(generics.DestroyAPIView):
+    """
+    View for deleting a team member.
+    """
+
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
 
 class TeamMemberListView(generics.ListAPIView):
+    """
+    View for listing team members with optional filtering.
+    """
+
     serializer_class = TeamMemberSerializer
     pagination_class = PageNumberPagination
 
