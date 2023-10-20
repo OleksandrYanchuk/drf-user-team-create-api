@@ -3,6 +3,10 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the custom user model.
+    """
+
     class Meta:
         model = get_user_model()
         fields = (
@@ -24,10 +28,18 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name": {"required": True, "allow_null": False},
         }
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> get_user_model():
+        """
+        Create and return a new user instance using the validated data.
+        """
+
         return get_user_model().objects.create_user(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data: dict) -> get_user_model():
+        """
+        Update and return an existing user instance using the validated data.
+        """
+
         password = validated_data.pop("password", None)
         user = super().update(instance, validated_data)
         if password:
